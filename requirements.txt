@@ -1,4 +1,4 @@
 folium
 seaborn
 ggplot
-localization
+git+https://github.com/kamalshadi/Localization.git
