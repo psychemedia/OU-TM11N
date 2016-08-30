@@ -1,3 +1,4 @@
 folium
 seaborn
 ggplot
+localization
