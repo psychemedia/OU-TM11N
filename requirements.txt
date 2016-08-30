@@ -2,3 +2,4 @@ folium
 seaborn
 ggplot
 git+https://github.com/psychemedia/Localization.git
+shapely
