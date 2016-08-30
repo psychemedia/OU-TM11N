@@ -1,6 +1,6 @@
 FROM andrewosh/binder-base:latest
 
-RUN mkdir /home/main/notebooks
+RUN mkdir -p /home/main/notebooks
 RUN chown main:main /home/main/notebooks
 WORKDIR /home/main/notebooks
 USER root
