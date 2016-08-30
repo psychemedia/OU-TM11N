@@ -6,10 +6,11 @@ WORKDIR /home/main/notebooks
 USER root
 COPY . /home/main/notebooks/
 RUN chown -R main:main $HOME/notebooks
-USER main
 
 RUN apt-get update
 RUN apt-get install -y libgeos-dev && apt-get clean
+
+USER main
 
 RUN find $HOME/notebooks -name '*.ipynb' -exec jupyter trust {} \;
 
