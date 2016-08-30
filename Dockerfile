@@ -7,6 +7,5 @@ RUN apt-get install -y libgeos-dev && apt-get clean
 
 USER main
 
-ADD requirements.txt requirements.txt
-ADD handle-requirements.py handle-requirements.py
-RUN python handle-requirements.py 
+RUN /home/main/anaconda2/envs/python3/bin/pip install folium shapely seaborn ggplot git+https://github.com/psychemedia/Localization.git
+RUN pip install folium shapely seaborn ggplot git+https://github.com/psychemedia/Localization.git
