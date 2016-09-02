@@ -5,3 +5,5 @@ git+https://github.com/psychemedia/Localization.git
 ##shapely requires apt-get: sudo apt-get install libgeos-dev ?
 shapely
 descartes
+pyknon
+music21
