@@ -5,6 +5,8 @@ USER root
 RUN apt-get update
 RUN apt-get install -y libgeos-dev musescore && apt-get clean
 
+RUN wget http://download.linuxaudio.org/lilypond/binaries/linux-64/lilypond-2.18.2-1.linux-64.sh && sh lilypond-2.18.2-1.linux-64.sh --batch
+
 USER main
 
 #Py3 installs
