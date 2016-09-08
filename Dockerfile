@@ -10,6 +10,6 @@ RUN wget -q http://download.linuxaudio.org/lilypond/binaries/linux-64/lilypond-2
 USER main
 
 #Py3 installs
-RUN /home/main/anaconda2/envs/python3/bin/pip install folium shapely descartes seaborn ggplot git+https://github.com/psychemedia/Localization.git pyknon music21
+RUN /home/main/anaconda2/envs/python3/bin/pip install folium geopandas shapely descartes seaborn ggplot git+https://github.com/psychemedia/Localization.git pyknon music21
 #Py2.7 installs
-RUN pip install folium shapely seaborn ggplot pyknon music21
+RUN pip install folium shapely seaborn geopandas ggplot pyknon music21
