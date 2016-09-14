@@ -3,7 +3,7 @@ FROM andrewosh/binder-base
 USER root
 
 RUN apt-get update
-RUN apt-get install -y libgeos-dev libgdal-dev musescore python-cairosvg python3-cairosvg && apt-get clean
+RUN apt-get install -y libgeos-dev libgdal-dev musescore python-cairosvg python3-cairosvg graphviz && apt-get clean
 
 RUN wget -q http://download.linuxaudio.org/lilypond/binaries/linux-64/lilypond-2.18.2-1.linux-64.sh && sh lilypond-2.18.2-1.linux-64.sh --batch
 
