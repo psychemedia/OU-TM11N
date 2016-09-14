@@ -11,5 +11,7 @@ USER main
 
 #Py3 installs
 RUN /home/main/anaconda2/envs/python3/bin/pip install folium geopandas shapely descartes seaborn ggplot git+https://github.com/psychemedia/Localization.git pyknon music21 sympy
+
 #Py2.7 installs
 RUN pip install folium shapely seaborn geopandas ggplot pyknon music21 sympy
+
