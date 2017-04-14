@@ -1,0 +1,109 @@
+<head>
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
+        <link href="prism.css" rel="stylesheet" />
+    </head>
+<body><h1>Calling Geolocation and Geocoding Services From the Browser</h1>
+        <div>One of the attractions of APIs (Appllication Progamming Interfaces)
+           is that you can call them from a wide variety of programming environments.</div>
+           <div>The web browser is one such environment. Calls are made to online
+           webservices using Javascript, which typically respond using JSON,
+         the Javascript Object Notation. This JSON data is processed by further Javascript
+       code and used to customise the HTML markup that is rendered by your browser.</div>
+       <div>This web page provides several working examples of how geolocation services
+         can be accessed from the browser.</div>
+
+	<hr/>
+	<h2>Activity: Browser location lookup</h2>
+        <div>Click the <em>Browser geolocate...</em> button to get your coordinates from the browser location service.</div>
+	<div>You will need to grant the browser permission to use location services.
+    Note this is a "black box" lookup - you don't get to see what information the browser passes to the geolocation lookup service.</div>
+        <button onclick="getLocation()" id='geolocate'>Browser geolocate...</button>
+        <div id="demo"></div><br/>
+
+        <hr/>
+
+	<h2>Activity: Geocoding demo</h2>
+
+        <div>Enter an address to try the Google Maps API geocoder:</div>
+        <input type="text" id="query" size=80 /><button id='geocode'>Get Coordinates for geocoded address</button>
+        <div id="results"></div>
+
+	<hr/>
+
+	<h2>Activity: Postcode Geocoding demo</h2>
+        <div>Enter a postcode to try the postcodes.io API geocoder:</div>
+        <input type="text" id="querypc" size=80 /><button id='geocodepc'>Get Coordinates for geocoded postcode</button>
+        <div id="resultspc"></div>
+
+        <hr/>
+
+	<h2>Activity: IP based Geocoding Demo</h2>
+
+        <div>IP based geolookup</div>
+        <button id='geoip'>Get Coordinates for IP address</button>
+        <div id="resultsip"></div>
+
+        <script language='javascript'>
+            //Define a function to call the browser geolocation service
+            function getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition);
+                } else {
+                    $('#demo').append('Geolocation is not supported by this browser.')
+                }
+            }
+            //Define a function to display the current location according to the browser geolocation service
+            function showPosition(position) {
+                $('#demo').append(  'Latitude: ' + position.coords.latitude +
+                                    '<br/>Longitude: ' + position.coords.longitude
+                                    )
+            }
+            $(document).ready(function(){
+                $("#geocode").click(function(){
+                    //The home of the Google maps geocoder API
+                    var gmapsurl="https://maps.googleapis.com/maps/api/geocode/json";
+                    var query = $("#query").val()
+                    $.getJSON(gmapsurl,{ address: query, sensor: "false"}, function(json){
+                        //Display the latitude and longitude
+                        $('#results').append('<div><p>Co-ordinates for '+query+'</p>');
+                        $('#results').append('<ul><li>Latitude : ' + json.results[0].geometry.location.lat+ '</li>' +
+                                             '<li>Longitude: ' + json.results[0].geometry.location.lng+ '</li></ul></div>'
+                                             + '<div>Raw JSON response:<br/><pre><code class="language-css">'+JSON.stringify(json, null, "\t")+'</code></pre></div>');
+                    });
+                });
+
+
+		 $("#geocodepc").click(function(){
+                    $.ajax({url: "https://api.postcodes.io/postcodes/"+$("#querypc").val(),
+		            type: "GET",
+		            success: function(json) {
+			                $('#resultspc').append('<div><p>Co-ordinates for '+$("#querypc").val()+'</p>');
+                            		$('#resultspc').append('<ul><li>Latitude : ' + json.result.latitude+ '</li>' +
+                                                    '<li>Longitude: ' + json.result.longitude+ '</li></ul></div>'
+                                                    +'<div>Raw JSON response:<br/><pre><code class="language-css">'+JSON.stringify(json, null, "\t")+'</code></pre></div>');
+		            },
+		            error: function(data) {
+		            	console.error(data);
+		            }
+	            });
+		});
+                $("#geoip").click(function(){
+                    $.ajax({url: "https://freegeoip.net/json/",
+		            type: "GET",
+		            success: function(json) {
+			                $('#resultsip').append('<div><p>Co-ordinates for '+json.ip+' registered in '+json.city+', '+json.country_name+'</p>');
+                            		$('#resultsip').append('<ul><li>Latitude : ' + json.latitude+ '</li>' +
+                                                    '<li>Longitude: ' + json.longitude+ '</li></ul></div>'
+                                                    +'<div>Raw JSON response:<br/><pre><code class="language-css">'+JSON.stringify(json, null, "\t")+'</code></pre></div>');
+		            },
+		            error: function(data) {
+		            	console.error(data);
+		            }
+	            });
+                })
+            });
+        </script>
+	<hr/>
+   <script src="prism.js"></script>
+</body>
