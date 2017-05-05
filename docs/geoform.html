@@ -14,7 +14,7 @@
          can be accessed from the browser.</div>
 
 	<hr/>
-	<h2>Activity: Browser location lookup</h2>
+	<a name="browserlocation"></a><h2>Activity: Browser location lookup</h2>
         <div>Click the <em>Browser geolocate...</em> button to get your coordinates from the browser location service.</div>
 	<div>You will need to grant the browser permission to use location services.
     Note this is a "black box" lookup - you don't get to see what information the browser passes to the geolocation lookup service.</div>
@@ -23,7 +23,7 @@
 
         <hr/>
 
-	<h2>Activity: Geocoding demo</h2>
+	<a name="geocoding"></a><h2>Activity: Geocoding demo</h2>
 
         <div>Enter an address to try the Google Maps API geocoder:</div>
         <input type="text" id="query" size=80 /><button id='geocode'>Get Coordinates for geocoded address</button>
@@ -31,14 +31,23 @@
 
 	<hr/>
 
-	<h2>Activity: Postcode Geocoding demo</h2>
+	<a name="postcode"></a><h2>Activity: Postcode Geocoding demo</h2>
+	<div>Get random postcode: <button id='getrandpc'>Use random postcode</button></div>
+	
         <div>Enter a postcode to try the postcodes.io API geocoder:</div>
         <input type="text" id="querypc" size=80 /><button id='geocodepc'>Get Coordinates for geocoded postcode</button>
         <div id="resultspc"></div>
 
         <hr/>
+        
+    <a name="reversepostcode"></a><h2>Activity: Reverse Geocoding to Postcode demo</h2>
+        <div>Enter latitide and longitude in the form <tt>LATITUDE,LONGITUDE</tt> to try the postcodes.io API reverse geocoder:</div>
+        <input type="text" id="querypcrev" size=80 value="52.0249147315159,  -0.709747474196332" /><button id='geocodepcrev'>Get Coordinates for geocoded postcode</button>
+        <div id="resultspcrev"></div>
 
-	<h2>Activity: IP based Geocoding Demo</h2>
+        <hr/>
+
+	<a name="ipaddress"></a><h2>Activity: IP based Geocoding Demo</h2>
 
         <div>IP based geolookup</div>
         <button id='geoip'>Get Coordinates for IP address</button>
@@ -74,6 +83,21 @@
                 });
 
 
+		//random pc ------------------------
+		$("#getrandpc").click(function(){
+		$.ajax({url: "https://api.postcodes.io/random/postcodes",
+		            type: "GET",
+		            success: function(json) {
+			                $('#querypc').val(json.result.postcode);
+		            },
+		            error: function(data) {
+		            	console.error(data);
+		            }
+	            });
+		})
+		
+		
+		//geocode pc ------------------------
 		 $("#geocodepc").click(function(){
                     $.ajax({url: "https://api.postcodes.io/postcodes/"+$("#querypc").val(),
 		            type: "GET",
@@ -88,6 +112,26 @@
 		            }
 	            });
 		});
+		
+
+		//reverse geocode pc ------------------------
+				 $("#geocodepcrev").click(function(){
+                    $.ajax({url: "https://api.postcodes.io/postcodes?lat="+$("#querypcrev").val().split(',')[0].trim()+"&lon="+$("#querypcrev").val().split(',')[1].trim(),
+		            type: "GET",
+		            success: function(json) {
+		            	$('#resultspcrev').append('<div><p>Postcode for '+$("#querypcrev").val()+':<ul>')
+			                for (result in json.result) {
+			                	 $('#resultspcrev').append('<li>'+ json.result[result].postcode+ '</li>');
+			                }
+                           $('#resultspcrev').append('</ul></div><div>Raw JSON response:<br/><pre><code class="language-css">'+JSON.stringify(json, null, "\t")+'</code></pre></div>');
+		            },
+		            error: function(data) {
+		            	console.error(data);
+		            }
+	            });
+		});
+		
+		//geocode IP Adress ------------------------
                 $("#geoip").click(function(){
                     $.ajax({url: "https://freegeoip.net/json/",
 		            type: "GET",
