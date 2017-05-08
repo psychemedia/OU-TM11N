@@ -11792,12 +11792,13 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Getting-Started-With-Geoocoding">Getting Started With Geoocoding<a class="anchor-link" href="#Getting-Started-With-Geoocoding">&#182;</a></h1><p>In this notebook, you will learn how to geocode different sorts of location data by making requests to several online APIs (<em>Application Proramming Interface</em>) for latitude and longitude co-ordinates associated with those locations.</p>
+<h1 id="Getting-Started-With-Geocoding">Getting Started With Geocoding<a class="anchor-link" href="#Getting-Started-With-Geocoding">&#182;</a></h1><p>In this notebook, you will learn how to geocode different sorts of location data by making requests to several online APIs (<em>Application Proramming Interface</em>) for latitude and longitude co-ordinates associated with those locations.</p>
 <p>The location data we will consider includes:</p>
 <ul>
 <li><a href="#postcodes">postcodes</a></li>
 <li><a href="#addresses">addresses</a></li>
 <li><a href="#IPaddresses">IP addresses</a></li>
+<li><a href="#cellTowers">cell towers</a></li>
 <li><a href="#wifiHotspits">wifi access points</a></li>
 </ul>
 
@@ -11806,7 +11807,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#The requests library makes it easy to call URLs using Python</span>
@@ -11838,7 +11839,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">postcode</span> <span class="o">=</span> <span class="s1">&#39;MK7 6AA&#39;</span>
@@ -11847,6 +11848,52 @@ div#notebook {
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[46]:</div>
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;result&#39;: {&#39;admin_county&#39;: None,
+  &#39;admin_district&#39;: &#39;Milton Keynes&#39;,
+  &#39;admin_ward&#39;: &#39;Monkston&#39;,
+  &#39;ccg&#39;: &#39;NHS Milton Keynes&#39;,
+  &#39;codes&#39;: {&#39;admin_county&#39;: &#39;E99999999&#39;,
+   &#39;admin_district&#39;: &#39;E06000042&#39;,
+   &#39;admin_ward&#39;: &#39;E05009415&#39;,
+   &#39;ccg&#39;: &#39;E38000107&#39;,
+   &#39;nuts&#39;: &#39;UKJ12&#39;,
+   &#39;parish&#39;: &#39;E04001275&#39;},
+  &#39;country&#39;: &#39;England&#39;,
+  &#39;eastings&#39;: 488625,
+  &#39;european_electoral_region&#39;: &#39;South East&#39;,
+  &#39;incode&#39;: &#39;6AA&#39;,
+  &#39;latitude&#39;: 52.0249147315159,
+  &#39;longitude&#39;: -0.709747474196332,
+  &#39;lsoa&#39;: &#39;Milton Keynes 017C&#39;,
+  &#39;msoa&#39;: &#39;Milton Keynes 017&#39;,
+  &#39;nhs_ha&#39;: &#39;South Central&#39;,
+  &#39;northings&#39;: 237063,
+  &#39;nuts&#39;: &#39;Milton Keynes&#39;,
+  &#39;outcode&#39;: &#39;MK7&#39;,
+  &#39;parish&#39;: &#39;Walton&#39;,
+  &#39;parliamentary_constituency&#39;: &#39;Milton Keynes South&#39;,
+  &#39;postcode&#39;: &#39;MK7 6AA&#39;,
+  &#39;primary_care_trust&#39;: &#39;Milton Keynes&#39;,
+  &#39;quality&#39;: 1,
+  &#39;region&#39;: &#39;South East&#39;},
+ &#39;status&#39;: 200}</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -11874,7 +11921,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Obtain the lat/long of a postcode</span>
@@ -11886,6 +11933,22 @@ div#notebook {
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>52.0249147315159 -0.709747474196332
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -11904,7 +11967,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Plot the lat long of a postcode on a map</span>
@@ -11927,6 +11990,23 @@ div#notebook {
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[48]:</div>
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><iframe src="data:text/html;base64,PCFET0NUWVBFIGh0bWw+CjxoZWFkPiAgICAKICAgIDxtZXRhIGh0dHAtZXF1aXY9ImNvbnRlbnQtdHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PVVURi04IiAvPgogICAgPHNjcmlwdD5MX1BSRUZFUl9DQU5WQVMgPSBmYWxzZTsgTF9OT19UT1VDSCA9IGZhbHNlOyBMX0RJU0FCTEVfM0QgPSBmYWxzZTs8L3NjcmlwdD4KICAgIDxzY3JpcHQgc3JjPSJodHRwczovL3VucGtnLmNvbS9sZWFmbGV0QDEuMC4xL2Rpc3QvbGVhZmxldC5qcyI+PC9zY3JpcHQ+CiAgICA8c2NyaXB0IHNyYz0iaHR0cHM6Ly9hamF4Lmdvb2dsZWFwaXMuY29tL2FqYXgvbGlicy9qcXVlcnkvMS4xMS4xL2pxdWVyeS5taW4uanMiPjwvc2NyaXB0PgogICAgPHNjcmlwdCBzcmM9Imh0dHBzOi8vbWF4Y2RuLmJvb3RzdHJhcGNkbi5jb20vYm9vdHN0cmFwLzMuMi4wL2pzL2Jvb3RzdHJhcC5taW4uanMiPjwvc2NyaXB0PgogICAgPHNjcmlwdCBzcmM9Imh0dHBzOi8vY2RuanMuY2xvdWRmbGFyZS5jb20vYWpheC9saWJzL0xlYWZsZXQuYXdlc29tZS1tYXJrZXJzLzIuMC4yL2xlYWZsZXQuYXdlc29tZS1tYXJrZXJzLmpzIj48L3NjcmlwdD4KICAgIDxzY3JpcHQgc3JjPSJodHRwczovL2NkbmpzLmNsb3VkZmxhcmUuY29tL2FqYXgvbGlicy9sZWFmbGV0Lm1hcmtlcmNsdXN0ZXIvMS4wLjAvbGVhZmxldC5tYXJrZXJjbHVzdGVyLXNyYy5qcyI+PC9zY3JpcHQ+CiAgICA8c2NyaXB0IHNyYz0iaHR0cHM6Ly9jZG5qcy5jbG91ZGZsYXJlLmNvbS9hamF4L2xpYnMvbGVhZmxldC5tYXJrZXJjbHVzdGVyLzEuMC4wL2xlYWZsZXQubWFya2VyY2x1c3Rlci5qcyI+PC9zY3JpcHQ+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Imh0dHBzOi8vdW5wa2cuY29tL2xlYWZsZXRAMS4wLjEvZGlzdC9sZWFmbGV0LmNzcyIgLz4KICAgIDxsaW5rIHJlbD0ic3R5bGVzaGVldCIgaHJlZj0iaHR0cHM6Ly9tYXhjZG4uYm9vdHN0cmFwY2RuLmNvbS9ib290c3RyYXAvMy4yLjAvY3NzL2Jvb3RzdHJhcC5taW4uY3NzIiAvPgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBocmVmPSJodHRwczovL21heGNkbi5ib290c3RyYXBjZG4uY29tL2Jvb3RzdHJhcC8zLjIuMC9jc3MvYm9vdHN0cmFwLXRoZW1lLm1pbi5jc3MiIC8+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Imh0dHBzOi8vbWF4Y2RuLmJvb3RzdHJhcGNkbi5jb20vZm9udC1hd2Vzb21lLzQuNi4zL2Nzcy9mb250LWF3ZXNvbWUubWluLmNzcyIgLz4KICAgIDxsaW5rIHJlbD0ic3R5bGVzaGVldCIgaHJlZj0iaHR0cHM6Ly9jZG5qcy5jbG91ZGZsYXJlLmNvbS9hamF4L2xpYnMvTGVhZmxldC5hd2Vzb21lLW1hcmtlcnMvMi4wLjIvbGVhZmxldC5hd2Vzb21lLW1hcmtlcnMuY3NzIiAvPgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBocmVmPSJodHRwczovL2NkbmpzLmNsb3VkZmxhcmUuY29tL2FqYXgvbGlicy9sZWFmbGV0Lm1hcmtlcmNsdXN0ZXIvMS4wLjAvTWFya2VyQ2x1c3Rlci5EZWZhdWx0LmNzcyIgLz4KICAgIDxsaW5rIHJlbD0ic3R5bGVzaGVldCIgaHJlZj0iaHR0cHM6Ly9jZG5qcy5jbG91ZGZsYXJlLmNvbS9hamF4L2xpYnMvbGVhZmxldC5tYXJrZXJjbHVzdGVyLzEuMC4wL01hcmtlckNsdXN0ZXIuY3NzIiAvPgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBocmVmPSJodHRwczovL3Jhd2dpdC5jb20vcHl0aG9uLXZpc3VhbGl6YXRpb24vZm9saXVtL21hc3Rlci9mb2xpdW0vdGVtcGxhdGVzL2xlYWZsZXQuYXdlc29tZS5yb3RhdGUuY3NzIiAvPgogICAgPHN0eWxlPmh0bWwsIGJvZHkge3dpZHRoOiAxMDAlO2hlaWdodDogMTAwJTttYXJnaW46IDA7cGFkZGluZzogMDt9PC9zdHlsZT4KICAgIDxzdHlsZT4jbWFwIHtwb3NpdGlvbjphYnNvbHV0ZTt0b3A6MDtib3R0b206MDtyaWdodDowO2xlZnQ6MDt9PC9zdHlsZT4KICAgIAogICAgICAgICAgICA8c3R5bGU+ICNtYXBfOWQzMzM4YmNhYTE0NGYwNmFiNTU1ODMyMzRhZGIzZmUgewogICAgICAgICAgICAgICAgcG9zaXRpb24gOiByZWxhdGl2ZTsKICAgICAgICAgICAgICAgIHdpZHRoIDogMTAwLjAlOwogICAgICAgICAgICAgICAgaGVpZ2h0OiAxMDAuMCU7CiAgICAgICAgICAgICAgICBsZWZ0OiAwLjAlOwogICAgICAgICAgICAgICAgdG9wOiAwLjAlOwogICAgICAgICAgICAgICAgfQogICAgICAgICAgICA8L3N0eWxlPgogICAgICAgIAo8L2hlYWQ+Cjxib2R5PiAgICAKICAgIAogICAgICAgICAgICA8ZGl2IGNsYXNzPSJmb2xpdW0tbWFwIiBpZD0ibWFwXzlkMzMzOGJjYWExNDRmMDZhYjU1NTgzMjM0YWRiM2ZlIiA+PC9kaXY+CiAgICAgICAgCjwvYm9keT4KPHNjcmlwdD4gICAgCiAgICAKCiAgICAgICAgICAgIAogICAgICAgICAgICAgICAgdmFyIHNvdXRoV2VzdCA9IEwubGF0TG5nKC05MCwgLTE4MCk7CiAgICAgICAgICAgICAgICB2YXIgbm9ydGhFYXN0ID0gTC5sYXRMbmcoOTAsIDE4MCk7CiAgICAgICAgICAgICAgICB2YXIgYm91bmRzID0gTC5sYXRMbmdCb3VuZHMoc291dGhXZXN0LCBub3J0aEVhc3QpOwogICAgICAgICAgICAKCiAgICAgICAgICAgIHZhciBtYXBfOWQzMzM4YmNhYTE0NGYwNmFiNTU1ODMyMzRhZGIzZmUgPSBMLm1hcCgKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICdtYXBfOWQzMzM4YmNhYTE0NGYwNmFiNTU1ODMyMzRhZGIzZmUnLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAge2NlbnRlcjogWzUyLjAyNDkxNDczMTUxNTksLTAuNzA5NzQ3NDc0MTk2MzMyXSwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHpvb206IDE1LAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbWF4Qm91bmRzOiBib3VuZHMsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBsYXllcnM6IFtdLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgd29ybGRDb3B5SnVtcDogZmFsc2UsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjcnM6IEwuQ1JTLkVQU0czODU3CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIH0pOwogICAgICAgICAgICAKICAgICAgICAKICAgIAogICAgICAgICAgICB2YXIgdGlsZV9sYXllcl8zZmM4NTYwMjQ1ODc0Y2U2YTMzM2YxNTVkODhhMmRmMCA9IEwudGlsZUxheWVyKAogICAgICAgICAgICAgICAgJ2h0dHBzOi8ve3N9LnRpbGUub3BlbnN0cmVldG1hcC5vcmcve3p9L3t4fS97eX0ucG5nJywKICAgICAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgICAgICBtYXhab29tOiAxOCwKICAgICAgICAgICAgICAgICAgICBtaW5ab29tOiAxLAogICAgICAgICAgICAgICAgICAgIGNvbnRpbnVvdXNXb3JsZDogZmFsc2UsCiAgICAgICAgICAgICAgICAgICAgbm9XcmFwOiBmYWxzZSwKICAgICAgICAgICAgICAgICAgICBhdHRyaWJ1dGlvbjogJ0RhdGEgYnkgPGEgaHJlZj0iaHR0cDovL29wZW5zdHJlZXRtYXAub3JnIj5PcGVuU3RyZWV0TWFwPC9hPiwgdW5kZXIgPGEgaHJlZj0iaHR0cDovL3d3dy5vcGVuc3RyZWV0bWFwLm9yZy9jb3B5cmlnaHQiPk9EYkw8L2E+LicsCiAgICAgICAgICAgICAgICAgICAgZGV0ZWN0UmV0aW5hOiBmYWxzZQogICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgICkuYWRkVG8obWFwXzlkMzMzOGJjYWExNDRmMDZhYjU1NTgzMjM0YWRiM2ZlKTsKCiAgICAgICAgCiAgICAKCiAgICAgICAgICAgIHZhciBtYXJrZXJfMTE4MTExYjE3YTM0NGNjYzhjODEwNWM5MDExOWEyNWQgPSBMLm1hcmtlcigKICAgICAgICAgICAgICAgIFs1Mi4wMjM5LC0wLjcwNzJdLAogICAgICAgICAgICAgICAgewogICAgICAgICAgICAgICAgICAgIGljb246IG5ldyBMLkljb24uRGVmYXVsdCgpCiAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgKQogICAgICAgICAgICAgICAgLmFkZFRvKG1hcF85ZDMzMzhiY2FhMTQ0ZjA2YWI1NTU4MzIzNGFkYjNmZSk7CiAgICAgICAgICAgIAogICAgCiAgICAgICAgICAgIHZhciBwb3B1cF9mNjVjYjBiNjM2NjE0YzgzYjBjZDllYTQwMzYzYmQ4YiA9IEwucG9wdXAoe21heFdpZHRoOiAnMzAwJ30pOwoKICAgICAgICAgICAgCiAgICAgICAgICAgICAgICB2YXIgaHRtbF80MjJlOWU0ZWEwMmE0OWEwYTczZGYzZGYzZTg2NTRiOSA9ICQoJzxkaXYgaWQ9Imh0bWxfNDIyZTllNGVhMDJhNDlhMGE3M2RmM2RmM2U4NjU0YjkiIHN0eWxlPSJ3aWR0aDogMTAwLjAlOyBoZWlnaHQ6IDEwMC4wJTsiPkxvY2F0aW9uIG9mIE1LNyA2QUE6ICg1Mi4wMjQ5MTQ3MzE1MTU5LC0wLjcwOTc0NzQ3NDE5NjMzMik8L2Rpdj4nKVswXTsKICAgICAgICAgICAgICAgIHBvcHVwX2Y2NWNiMGI2MzY2MTRjODNiMGNkOWVhNDAzNjNiZDhiLnNldENvbnRlbnQoaHRtbF80MjJlOWU0ZWEwMmE0OWEwYTczZGYzZGYzZTg2NTRiOSk7CiAgICAgICAgICAgIAoKICAgICAgICAgICAgbWFya2VyXzExODExMWIxN2EzNDRjY2M4YzgxMDVjOTAxMTlhMjVkLmJpbmRQb3B1cChwb3B1cF9mNjVjYjBiNjM2NjE0YzgzYjBjZDllYTQwMzYzYmQ4Yik7CgogICAgICAgICAgICAKICAgICAgICAKPC9zY3JpcHQ+" style="position:absolute;width:100%;height:100%;left:0;top:0;"></iframe></div></div>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -11942,7 +12022,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">address</span><span class="o">=</span><span class="s1">&#39;Open University, Walton Hall, Milton Keynes, MK7 6AA, UK&#39;</span>
@@ -11951,6 +12031,53 @@ div#notebook {
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[49]:</div>
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;results&#39;: [{&#39;address_components&#39;: [{&#39;long_name&#39;: &#39;Walton Hall&#39;,
+     &#39;short_name&#39;: &#39;Walton Hall&#39;,
+     &#39;types&#39;: [&#39;establishment&#39;, &#39;point_of_interest&#39;]},
+    {&#39;long_name&#39;: &#39;Kents Hill&#39;,
+     &#39;short_name&#39;: &#39;Kents Hill&#39;,
+     &#39;types&#39;: [&#39;locality&#39;, &#39;political&#39;]},
+    {&#39;long_name&#39;: &#39;Milton Keynes&#39;,
+     &#39;short_name&#39;: &#39;Milton Keynes&#39;,
+     &#39;types&#39;: [&#39;postal_town&#39;]},
+    {&#39;long_name&#39;: &#39;Milton Keynes&#39;,
+     &#39;short_name&#39;: &#39;Milton Keynes&#39;,
+     &#39;types&#39;: [&#39;administrative_area_level_2&#39;, &#39;political&#39;]},
+    {&#39;long_name&#39;: &#39;England&#39;,
+     &#39;short_name&#39;: &#39;England&#39;,
+     &#39;types&#39;: [&#39;administrative_area_level_1&#39;, &#39;political&#39;]},
+    {&#39;long_name&#39;: &#39;United Kingdom&#39;,
+     &#39;short_name&#39;: &#39;GB&#39;,
+     &#39;types&#39;: [&#39;country&#39;, &#39;political&#39;]},
+    {&#39;long_name&#39;: &#39;MK7 6BH&#39;,
+     &#39;short_name&#39;: &#39;MK7 6BH&#39;,
+     &#39;types&#39;: [&#39;postal_code&#39;]}],
+   &#39;formatted_address&#39;: &#39;Walton Hall, Kents Hill, Milton Keynes MK7 6BH, UK&#39;,
+   &#39;geometry&#39;: {&#39;location&#39;: {&#39;lat&#39;: 52.02462269999999, &#39;lng&#39;: -0.7107079},
+    &#39;location_type&#39;: &#39;APPROXIMATE&#39;,
+    &#39;viewport&#39;: {&#39;northeast&#39;: {&#39;lat&#39;: 52.02597168029149,
+      &#39;lng&#39;: -0.709358919708498},
+     &#39;southwest&#39;: {&#39;lat&#39;: 52.02327371970849, &#39;lng&#39;: -0.712056880291502}}},
+   &#39;place_id&#39;: &#39;ChIJW3FMFVuhd0gRVUSpS2HG-ps&#39;,
+   &#39;types&#39;: [&#39;establishment&#39;, &#39;point_of_interest&#39;]}],
+ &#39;status&#39;: &#39;OK&#39;}</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -11992,7 +12119,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">myIPaddress</span><span class="o">=</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;http://checkip.amazonaws.com/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
@@ -12003,10 +12130,28 @@ div#notebook {
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[50]:</div>
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;109.157.179.177&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#We can construct a URL based around the IP address of the machine making the request as follows:</span>
@@ -12018,14 +12163,96 @@ div#notebook {
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[51]:</div>
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;https://freegeoip.net/json/109.157.179.177&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">r</span><span class="o">=</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[52]:</div>
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;city&#39;: &#39;Sandown&#39;,
+ &#39;country_code&#39;: &#39;GB&#39;,
+ &#39;country_name&#39;: &#39;United Kingdom&#39;,
+ &#39;ip&#39;: &#39;109.157.179.177&#39;,
+ &#39;latitude&#39;: 50.6674,
+ &#39;longitude&#39;: -1.186,
+ &#39;metro_code&#39;: 0,
+ &#39;region_code&#39;: &#39;ENG&#39;,
+ &#39;region_name&#39;: &#39;England&#39;,
+ &#39;time_zone&#39;: &#39;Europe/London&#39;,
+ &#39;zip_code&#39;: &#39;PO36&#39;}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The result may surprise you, for example if the notebook and the python process associated with it is running on a server hosted in the cloud. In this case, try looking up the IP address associated with computer you are using to access the internet. You can find this IP by visiting the link: <a href="http://checkip.amazonaws.com/">http://checkip.amazonaws.com/</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a name="cellTowers"></a></p>
+<h2 id="Cell-Tower-Lookup">Cell Tower Lookup<a class="anchor-link" href="#Cell-Tower-Lookup">&#182;</a></h2><p>The Google geolocation API can be used to look-up the geographical locations (latitue and longitude co-ordinates) of cell towers and wifi hotsposts based on their unique IDs.</p>
+<p>To call the Google webservice to look up the geographical locations of cell towers or wifi hotspots from their IDs, you will need to get a Google Geolocation API token: visit <a href="https://developers.google.com/maps/documentation/geocoding/get-api-key">https://developers.google.com/maps/documentation/geocoding/get-api-key</a> and follow the instructions on how to get a key for the geolocation API.</p>
+<p>When you have obtained your key, use it to set the <code>googleMapsAPIkey</code> variable below.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">googleMapsAPIkey</span><span class="o">=</span><span class="s2">&quot;YOUR_KEY_HERE&quot;</span>
 </pre></div>
 
 </div>
@@ -12038,10 +12265,79 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The result may surprise you, for example if the notebook and the python process associated with it is running on a server hosted in the cloud. In this case, try looking up the IP address associated with computer you are using to access the internet by visiting the link: <a href="http://checkip.amazonaws.com/">http://checkip.amazonaws.com/</a>.</p>
+<p>Once you have set your Google API key, run the following cell to look up the details of a particular cell tower:</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Add your cell tower details here.</span>
+<span class="c1">#You can find them using an app such as the OpenSignal app</span>
+
+<span class="n">postjson</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">&quot;cellTowers&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;mobileCountryCode&quot;</span><span class="p">:</span> <span class="mi">234</span><span class="p">,</span>
+        <span class="s2">&quot;mobileNetworkCode&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+        <span class="s2">&quot;locationAreaCode&quot;</span><span class="p">:</span> <span class="mi">979</span><span class="p">,</span>
+        <span class="s2">&quot;cellId&quot;</span><span class="p">:</span> <span class="mi">42333969</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://www.googleapis.com/geolocation/v1/geolocate?key=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">googleMapsAPIkey</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">postjson</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">postjson</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>{&#39;cellTowers&#39;: [{&#39;cellId&#39;: 42333969, &#39;mobileNetworkCode&#39;: 15, &#39;mobileCountryCode&#39;: 234, &#39;locationAreaCode&#39;: 979}]}
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[55]:</div>
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;accuracy&#39;: 1337.0, &#39;location&#39;: {&#39;lat&#39;: 52.0364717, &#39;lng&#39;: -0.7084701}}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -12052,7 +12348,7 @@ div#notebook {
 <h2 id="WiFi-Hotspot-MAC-Addresses">WiFi Hotspot MAC Addresses<a class="anchor-link" href="#WiFi-Hotspot-MAC-Addresses">&#182;</a></h2><p>As well as services that provide access to directories that try to associate IP addresses with physical locations, there are also databases that also try to associate MAC addresses of wifi routers with physical locations.</p>
 <p>If your computer has a wifi enabled, you will use access a low level command on your computer that identifies in-range wifi routers and provides adminstrative information about them.</p>
 <p><strong>STILL NEEDS TESTING &amp; REFINING - TO DO</strong></p>
-<p>Note that to call the Google webservice used in this example that associates router MAC address with locations, you will need to get a Google Geolocation API token: visit <a href="https://developers.google.com/maps/documentation/geocoding/get-api-key">https://developers.google.com/maps/documentation/geocoding/get-api-key</a> and follow the instructions on how to get a key for the geolocation API.</p>
+<p>Note that to call the Google webservice to look up the geographical locations of cell towers or wifi hotspots from their IDs, you will need to get a Google Geolocation API token: visit <a href="https://developers.google.com/maps/documentation/geocoding/get-api-key">https://developers.google.com/maps/documentation/geocoding/get-api-key</a> and follow the instructions on how to get a key for the geolocation API.</p>
 <p>When you have obtained your key, use it to set the <code>googleMapsAPIkey</code> variable below.</p>
 <p>Also note that the code may look a little bit involved. But <code>DON'T PANIC</code>, you don't need to be able to write, or even read, this sort of code for the purposes of this course.</p>
 
@@ -12061,7 +12357,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[59]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">googleMapsAPIkey</span><span class="o">=</span><span class="s2">&quot;YOUR_KEY_HERE&quot;</span>
@@ -12074,10 +12370,11 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[60]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">requests</span>
 
 <span class="c1">#http://stackoverflow.com/a/9859202/454773</span>
 <span class="k">def</span> <span class="nf">isInt_str</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
@@ -12096,34 +12393,28 @@ div#notebook {
     <span class="c1">#For Mac:</span>
     <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">==</span><span class="s1">&#39;darwin&#39;</span><span class="p">:</span>
             <span class="n">results</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="s2">&quot;/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport&quot;</span><span class="p">,</span> <span class="s2">&quot;-s&quot;</span><span class="p">])</span>
-            <span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="c1"># needed in python 3</span>
-            <span class="n">ls</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">ls</span> <span class="o">=</span> <span class="n">ls</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ls</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">!=</span><span class="s1">&#39;&#39;</span><span class="p">]:</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">!=</span><span class="s1">&#39;&#39;</span><span class="p">]:</span>
                 <span class="n">ll</span><span class="o">=</span><span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
-                <span class="c1">#We could use a regular expression - or we can cosntruct our parser a step at a time...</span>
-                <span class="n">macAddr</span><span class="p">[</span><span class="n">l</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span><span class="o">=</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">l</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="c1">#We could use a regular expression - or we can construct our parser a step at a time...</span>
+                <span class="n">macAddress</span><span class="o">=</span><span class="n">l</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">strength</span><span class="o">=</span><span class="n">l</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">isInt_str</span><span class="p">(</span><span class="n">strength</span><span class="p">):</span>
+                    <span class="n">macAddr</span><span class="p">[</span><span class="n">l</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;macAddress&#39;</span><span class="p">:</span><span class="n">macAddress</span><span class="p">,</span>
+                                                      <span class="s1">&#39;signalStrength&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">strength</span><span class="p">)}</span>
                 
-    <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">==</span><span class="s1">&#39;??windows&#39;</span><span class="p">:</span>
-        <span class="c1">#Need a windows machine to explore this - TO DO</span>
-        <span class="c1">#win?</span>
-        <span class="c1">#results = subprocess.check_output([&quot;netsh&quot;, &quot;wlan&quot;, &quot;show&quot;, &quot;network&quot;])</span>
+    <span class="k">elif</span> <span class="n">win</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="p">:</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="s2">&quot;netsh&quot;</span><span class="p">,</span> <span class="s2">&quot;wlan&quot;</span><span class="p">,</span> <span class="s2">&quot;show&quot;</span><span class="p">,</span> <span class="s2">&quot;network&quot;</span><span class="p">,</span> <span class="s2">&quot;mode=bssid&quot;</span><span class="p">])</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">macAddress</span><span class="o">=</span><span class="s1">&#39;UNKNOWN&#39;</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="mi">4</span><span class="p">:]:</span>
+            <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;SSID&#39;</span><span class="p">):</span>
+                <span class="n">macAddress</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:])</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s1">&#39;BSSID&#39;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+                <span class="n">macAddr</span><span class="p">[</span><span class="n">macAddress</span><span class="p">]</span><span class="o">=</span><span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">macAddress</span><span class="o">=</span><span class="s1">&#39;UNKNOWN&#39;</span>
 
-        <span class="n">results</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="s2">&quot;netsh&quot;</span><span class="p">,</span> <span class="s2">&quot;wlan&quot;</span><span class="p">,</span> <span class="s2">&quot;show&quot;</span><span class="p">,</span> <span class="s2">&quot;network&quot;</span><span class="p">])</span>
-
-        <span class="c1">#Adding: / mode=bssid / gives SSIDS?#or maybe: netsh wlan show allresults = results.decode(&quot;ascii&quot;) # needed in python 3</span>
-        <span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="n">ls</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">ls</span> <span class="o">=</span> <span class="n">ls</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
-        <span class="n">ssids</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">while</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">ls</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">ssids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ls</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
-            <span class="n">x</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">ssids</span><span class="p">)</span>
-
-    <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">==</span><span class="s1">&#39;??linux&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="s1">&#39;linux&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="p">:</span>
         <span class="c1">#linux?</span>
         <span class="c1">#! apt-get -y install wireless-tools</span>
         <span class="c1">#results = subprocess.check_output([&quot;iwlist&quot;,&quot;scanning&quot;])    </span>
@@ -12136,16 +12427,28 @@ div#notebook {
         <span class="k">pass</span>
 
     <span class="k">return</span> <span class="n">macAddr</span>
+</pre></div>
 
-<span class="n">postjson</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;wifiAccessPoints&#39;</span><span class="p">:[]}</span>
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">postjson</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;wifiAccessPoints&#39;</span><span class="p">:[]}</span>
 <span class="n">hotspots</span><span class="o">=</span><span class="n">getWifiMacAddresses</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">hotspots</span><span class="p">:</span>
-    <span class="n">addr</span><span class="p">,</span><span class="n">db</span><span class="o">=</span><span class="n">hotspots</span><span class="p">[</span><span class="n">h</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">isInt_str</span><span class="p">(</span><span class="n">db</span><span class="p">):</span>
-        <span class="n">postjson</span><span class="p">[</span><span class="s1">&#39;wifiAccessPoints&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;macAddress&#39;</span><span class="p">:</span><span class="n">addr</span><span class="p">,</span> <span class="s1">&#39;signalStrength&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">db</span><span class="p">)})</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">hotspots</span><span class="p">[</span><span class="n">h</span><span class="p">]))</span>
 
+<span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">hotspots</span><span class="p">:</span>
+    <span class="n">postjson</span><span class="p">[</span><span class="s1">&#39;wifiAccessPoints&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hotspots</span><span class="p">[</span><span class="n">h</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">hotspots</span><span class="p">[</span><span class="n">h</span><span class="p">])</span>
+    
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;JSON posted to Google service: &#39;</span><span class="p">,</span><span class="n">postjson</span><span class="p">)</span>
 <span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://www.googleapis.com/geolocation/v1/geolocate?key=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">googleMapsAPIkey</span><span class="p">)</span>
+
 
 <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">postjson</span><span class="p">)</span>
 <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
