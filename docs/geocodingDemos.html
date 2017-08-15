@@ -11740,9 +11740,7 @@ body {
 div#notebook {
   overflow: visible;
   border-top: none;
-}
-
-@media print {
+}@media print {
   div.cell {
     display: block;
     page-break-inside: avoid;
@@ -11763,7 +11761,7 @@ div#notebook {
 
 <!-- Loading mathjax macro -->
 <!-- Load mathjax -->
-    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
     <!-- MathJax configuration -->
     <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
@@ -11787,12 +11785,13 @@ div#notebook {
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Getting-Started-With-Geocoding">Getting Started With Geocoding<a class="anchor-link" href="#Getting-Started-With-Geocoding">&#182;</a></h1><p>In this notebook, you will learn how to geocode different sorts of location data by making requests to several online APIs (<em>Application Proramming Interface</em>) for latitude and longitude co-ordinates associated with those locations.</p>
+<h1 id="Getting-Started-With-Geocoding">Getting Started With Geocoding<a class="anchor-link" href="#Getting-Started-With-Geocoding">&#182;</a></h1><p>In this notebook, you will learn how to geocode different sorts of location data by making requests to several online APIs (<em>Application Programming Interface</em>) for latitude and longitude co-ordinates associated with those locations.</p>
+<p>The aim of the notebook is <em>not</em> to teach you formal approaches for working with APIs or the data that is returned from them. Instead, it's something to whet your curiosity. Something to show you how, with a few lines of Python code, you can start to work with live, third-party datasources and online services to perform real-world programming tasks.</p>
+<p>If something doesn't work: <em>DON'T PANIC</em>. You won't break your computer and you won't break the internet. And you won't fail the module if you just move on!</p>
 <p>The location data we will consider includes:</p>
 <ul>
 <li><a href="#postcodes">postcodes</a></li>
@@ -11807,7 +11806,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#The requests library makes it easy to call URLs using Python</span>
@@ -11819,8 +11818,7 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -11830,7 +11828,49 @@ div#notebook {
 <p>To call the service, we construct a URL as defined for a particular API and make a request to that URL using the <em>python</em> <code>requests</code> package.</p>
 <p>Data is often returned from webservices using the JSON (Javascript Object Notation) data format, although some APIs allow you to specify other formats such as XML.</p>
 <p>(One advantage of the JSON response is that it can be immediately consumed by a Javascript script called from inside a webpage.)</p>
-<p>The <em>python</em> <code>requests</code> library has a method that parses a correctly formed JSON response as a <em>python</em> <code>dict</code>.</p>
+<p>JSON and XML both allow data to be represented in a structured, <em>tree</em> based hierarchical format. The first API we will use, published via the <em>postcodes.io</em> website, structures its response data in the following way:</p>
+<p><img src="images/postodes_io_struct.png" alt="Hierarchical structure of postocdes api data, showire results tree with latitude, longitude and codes children, and codes showing admin_district and parish district"></p>
+<!--- http://blockdiag.com/en/blockdiag/demo.html
+{
+
+  "result" -> "postcode";
+"result" -> "country";
+"result" -> "longitude";
+"result" -> "latitude";
+"dots" [shape = "dots"];
+"result" -> "dots" [style = "none"];
+"result" -> "codes";
+"codes" -> "admin_district";
+"dots2" [shape = "dots"];
+"codes" -> "dots2" [style = "none"];
+"codes" -> "parish";
+
+})
+
+--->
+
+<p>The <code>result</code> node is at the top of the tree with children <code>postcode</code>, <code>latitude</code>, <code>longitude</code> and so on. The <code>codes</code> child has further children, such as: <code>admin</code> and <code>parish</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In <em>python</em>, data structures of this form can be represented using the <code>dict</code> ("dictionary") structure, which you will meet elsewhere in the course.</p>
+<p>The <em>python</em> <code>requests</code> library has a method that parses a correctly formed JSON response as a <em>python</em> <code>dict</code>, or more generally, as a set of <em>nested dicts</em>. In this case, one <code>dict</code> structure may be nested inside another to support child, grandchild, great grandchild, and so on, levels of structure.</p>
+<p><img src="images/postodes_io_struct_data.png" alt="Hierarchical structure of postocdes api data, showire results tree with latitude, longitude and codes children, and codes showing admin_district and parish district"></p>
+<p>The contents of different levels of the nested <code>dict</code> data structure can be accessed by using a form of associative, relative addressing. For example, if the variable <code>mypostcode</code> is set to the <code>dict</code> shown above, we could access the contents of the main <code>result</code> part of the data structure by writing: <code>mypostcode["result"]</code>.</p>
+<p>To obtain the value of items in deeper nested parts of the data structure, we simply add further levels of relative addressing. To fetch the value of the <code>postcode</code>, we need to specify the path to it via the <code>result</code> node: <code>mypostcode["result"]["postcode"]</code>. To obtain the value of the <code>parish</code> in the <code>code</code> part of the data structure, we specify the path to it as <code>mypostcode["result"]["code"]["parish"]</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Run the following cell to call the <code>postcodes.io</code> API with a particular postcode.</p>
 <p>See if you can make sense of the result that is returned.</p>
 
@@ -11839,7 +11879,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">postcode</span> <span class="o">=</span> <span class="s1">&#39;MK7 6AA&#39;</span>
@@ -11856,7 +11896,9 @@ div#notebook {
 
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[46]:</div>
+
+<div class="prompt output_prompt">Out[2]:</div>
+
 
 
 
@@ -11898,8 +11940,7 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -11908,8 +11949,7 @@ div#notebook {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -11921,7 +11961,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Obtain the lat/long of a postcode</span>
@@ -11941,7 +11981,9 @@ div#notebook {
 
 
 <div class="output_area">
+
 <div class="prompt"></div>
+
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>52.0249147315159 -0.709747474196332
@@ -11953,8 +11995,7 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -11967,7 +12008,47 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip3 install folium
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Collecting folium
+  Downloading folium-0.3.0-py3-none-any.whl (71kB)
+    100% |████████████████████████████████| 71kB 2.4MB/s ta 0:00:011
+Requirement already satisfied: Jinja2 in /usr/local/lib/python3.6/site-packages (from folium)
+Requirement already satisfied: six in /usr/local/lib/python3.6/site-packages (from folium)
+Collecting branca (from folium)
+  Downloading branca-0.2.0-py3-none-any.whl
+Requirement already satisfied: MarkupSafe&gt;=0.23 in /usr/local/lib/python3.6/site-packages (from Jinja2-&gt;folium)
+Installing collected packages: branca, folium
+Successfully installed branca-0.2.0 folium-0.3.0
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Plot the lat long of a postcode on a map</span>
@@ -11995,11 +12076,13 @@ div#notebook {
 
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[48]:</div>
+
+<div class="prompt output_prompt">Out[7]:</div>
+
 
 
 <div class="output_html rendered_html output_subarea output_execute_result">
-<div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><iframe src="data:text/html;base64,PCFET0NUWVBFIGh0bWw+CjxoZWFkPiAgICAKICAgIDxtZXRhIGh0dHAtZXF1aXY9ImNvbnRlbnQtdHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PVVURi04IiAvPgogICAgPHNjcmlwdD5MX1BSRUZFUl9DQU5WQVMgPSBmYWxzZTsgTF9OT19UT1VDSCA9IGZhbHNlOyBMX0RJU0FCTEVfM0QgPSBmYWxzZTs8L3NjcmlwdD4KICAgIDxzY3JpcHQgc3JjPSJodHRwczovL3VucGtnLmNvbS9sZWFmbGV0QDEuMC4xL2Rpc3QvbGVhZmxldC5qcyI+PC9zY3JpcHQ+CiAgICA8c2NyaXB0IHNyYz0iaHR0cHM6Ly9hamF4Lmdvb2dsZWFwaXMuY29tL2FqYXgvbGlicy9qcXVlcnkvMS4xMS4xL2pxdWVyeS5taW4uanMiPjwvc2NyaXB0PgogICAgPHNjcmlwdCBzcmM9Imh0dHBzOi8vbWF4Y2RuLmJvb3RzdHJhcGNkbi5jb20vYm9vdHN0cmFwLzMuMi4wL2pzL2Jvb3RzdHJhcC5taW4uanMiPjwvc2NyaXB0PgogICAgPHNjcmlwdCBzcmM9Imh0dHBzOi8vY2RuanMuY2xvdWRmbGFyZS5jb20vYWpheC9saWJzL0xlYWZsZXQuYXdlc29tZS1tYXJrZXJzLzIuMC4yL2xlYWZsZXQuYXdlc29tZS1tYXJrZXJzLmpzIj48L3NjcmlwdD4KICAgIDxzY3JpcHQgc3JjPSJodHRwczovL2NkbmpzLmNsb3VkZmxhcmUuY29tL2FqYXgvbGlicy9sZWFmbGV0Lm1hcmtlcmNsdXN0ZXIvMS4wLjAvbGVhZmxldC5tYXJrZXJjbHVzdGVyLXNyYy5qcyI+PC9zY3JpcHQ+CiAgICA8c2NyaXB0IHNyYz0iaHR0cHM6Ly9jZG5qcy5jbG91ZGZsYXJlLmNvbS9hamF4L2xpYnMvbGVhZmxldC5tYXJrZXJjbHVzdGVyLzEuMC4wL2xlYWZsZXQubWFya2VyY2x1c3Rlci5qcyI+PC9zY3JpcHQ+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Imh0dHBzOi8vdW5wa2cuY29tL2xlYWZsZXRAMS4wLjEvZGlzdC9sZWFmbGV0LmNzcyIgLz4KICAgIDxsaW5rIHJlbD0ic3R5bGVzaGVldCIgaHJlZj0iaHR0cHM6Ly9tYXhjZG4uYm9vdHN0cmFwY2RuLmNvbS9ib290c3RyYXAvMy4yLjAvY3NzL2Jvb3RzdHJhcC5taW4uY3NzIiAvPgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBocmVmPSJodHRwczovL21heGNkbi5ib290c3RyYXBjZG4uY29tL2Jvb3RzdHJhcC8zLjIuMC9jc3MvYm9vdHN0cmFwLXRoZW1lLm1pbi5jc3MiIC8+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Imh0dHBzOi8vbWF4Y2RuLmJvb3RzdHJhcGNkbi5jb20vZm9udC1hd2Vzb21lLzQuNi4zL2Nzcy9mb250LWF3ZXNvbWUubWluLmNzcyIgLz4KICAgIDxsaW5rIHJlbD0ic3R5bGVzaGVldCIgaHJlZj0iaHR0cHM6Ly9jZG5qcy5jbG91ZGZsYXJlLmNvbS9hamF4L2xpYnMvTGVhZmxldC5hd2Vzb21lLW1hcmtlcnMvMi4wLjIvbGVhZmxldC5hd2Vzb21lLW1hcmtlcnMuY3NzIiAvPgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBocmVmPSJodHRwczovL2NkbmpzLmNsb3VkZmxhcmUuY29tL2FqYXgvbGlicy9sZWFmbGV0Lm1hcmtlcmNsdXN0ZXIvMS4wLjAvTWFya2VyQ2x1c3Rlci5EZWZhdWx0LmNzcyIgLz4KICAgIDxsaW5rIHJlbD0ic3R5bGVzaGVldCIgaHJlZj0iaHR0cHM6Ly9jZG5qcy5jbG91ZGZsYXJlLmNvbS9hamF4L2xpYnMvbGVhZmxldC5tYXJrZXJjbHVzdGVyLzEuMC4wL01hcmtlckNsdXN0ZXIuY3NzIiAvPgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBocmVmPSJodHRwczovL3Jhd2dpdC5jb20vcHl0aG9uLXZpc3VhbGl6YXRpb24vZm9saXVtL21hc3Rlci9mb2xpdW0vdGVtcGxhdGVzL2xlYWZsZXQuYXdlc29tZS5yb3RhdGUuY3NzIiAvPgogICAgPHN0eWxlPmh0bWwsIGJvZHkge3dpZHRoOiAxMDAlO2hlaWdodDogMTAwJTttYXJnaW46IDA7cGFkZGluZzogMDt9PC9zdHlsZT4KICAgIDxzdHlsZT4jbWFwIHtwb3NpdGlvbjphYnNvbHV0ZTt0b3A6MDtib3R0b206MDtyaWdodDowO2xlZnQ6MDt9PC9zdHlsZT4KICAgIAogICAgICAgICAgICA8c3R5bGU+ICNtYXBfOWQzMzM4YmNhYTE0NGYwNmFiNTU1ODMyMzRhZGIzZmUgewogICAgICAgICAgICAgICAgcG9zaXRpb24gOiByZWxhdGl2ZTsKICAgICAgICAgICAgICAgIHdpZHRoIDogMTAwLjAlOwogICAgICAgICAgICAgICAgaGVpZ2h0OiAxMDAuMCU7CiAgICAgICAgICAgICAgICBsZWZ0OiAwLjAlOwogICAgICAgICAgICAgICAgdG9wOiAwLjAlOwogICAgICAgICAgICAgICAgfQogICAgICAgICAgICA8L3N0eWxlPgogICAgICAgIAo8L2hlYWQ+Cjxib2R5PiAgICAKICAgIAogICAgICAgICAgICA8ZGl2IGNsYXNzPSJmb2xpdW0tbWFwIiBpZD0ibWFwXzlkMzMzOGJjYWExNDRmMDZhYjU1NTgzMjM0YWRiM2ZlIiA+PC9kaXY+CiAgICAgICAgCjwvYm9keT4KPHNjcmlwdD4gICAgCiAgICAKCiAgICAgICAgICAgIAogICAgICAgICAgICAgICAgdmFyIHNvdXRoV2VzdCA9IEwubGF0TG5nKC05MCwgLTE4MCk7CiAgICAgICAgICAgICAgICB2YXIgbm9ydGhFYXN0ID0gTC5sYXRMbmcoOTAsIDE4MCk7CiAgICAgICAgICAgICAgICB2YXIgYm91bmRzID0gTC5sYXRMbmdCb3VuZHMoc291dGhXZXN0LCBub3J0aEVhc3QpOwogICAgICAgICAgICAKCiAgICAgICAgICAgIHZhciBtYXBfOWQzMzM4YmNhYTE0NGYwNmFiNTU1ODMyMzRhZGIzZmUgPSBMLm1hcCgKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICdtYXBfOWQzMzM4YmNhYTE0NGYwNmFiNTU1ODMyMzRhZGIzZmUnLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAge2NlbnRlcjogWzUyLjAyNDkxNDczMTUxNTksLTAuNzA5NzQ3NDc0MTk2MzMyXSwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHpvb206IDE1LAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbWF4Qm91bmRzOiBib3VuZHMsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBsYXllcnM6IFtdLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgd29ybGRDb3B5SnVtcDogZmFsc2UsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjcnM6IEwuQ1JTLkVQU0czODU3CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIH0pOwogICAgICAgICAgICAKICAgICAgICAKICAgIAogICAgICAgICAgICB2YXIgdGlsZV9sYXllcl8zZmM4NTYwMjQ1ODc0Y2U2YTMzM2YxNTVkODhhMmRmMCA9IEwudGlsZUxheWVyKAogICAgICAgICAgICAgICAgJ2h0dHBzOi8ve3N9LnRpbGUub3BlbnN0cmVldG1hcC5vcmcve3p9L3t4fS97eX0ucG5nJywKICAgICAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgICAgICBtYXhab29tOiAxOCwKICAgICAgICAgICAgICAgICAgICBtaW5ab29tOiAxLAogICAgICAgICAgICAgICAgICAgIGNvbnRpbnVvdXNXb3JsZDogZmFsc2UsCiAgICAgICAgICAgICAgICAgICAgbm9XcmFwOiBmYWxzZSwKICAgICAgICAgICAgICAgICAgICBhdHRyaWJ1dGlvbjogJ0RhdGEgYnkgPGEgaHJlZj0iaHR0cDovL29wZW5zdHJlZXRtYXAub3JnIj5PcGVuU3RyZWV0TWFwPC9hPiwgdW5kZXIgPGEgaHJlZj0iaHR0cDovL3d3dy5vcGVuc3RyZWV0bWFwLm9yZy9jb3B5cmlnaHQiPk9EYkw8L2E+LicsCiAgICAgICAgICAgICAgICAgICAgZGV0ZWN0UmV0aW5hOiBmYWxzZQogICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgICkuYWRkVG8obWFwXzlkMzMzOGJjYWExNDRmMDZhYjU1NTgzMjM0YWRiM2ZlKTsKCiAgICAgICAgCiAgICAKCiAgICAgICAgICAgIHZhciBtYXJrZXJfMTE4MTExYjE3YTM0NGNjYzhjODEwNWM5MDExOWEyNWQgPSBMLm1hcmtlcigKICAgICAgICAgICAgICAgIFs1Mi4wMjM5LC0wLjcwNzJdLAogICAgICAgICAgICAgICAgewogICAgICAgICAgICAgICAgICAgIGljb246IG5ldyBMLkljb24uRGVmYXVsdCgpCiAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgKQogICAgICAgICAgICAgICAgLmFkZFRvKG1hcF85ZDMzMzhiY2FhMTQ0ZjA2YWI1NTU4MzIzNGFkYjNmZSk7CiAgICAgICAgICAgIAogICAgCiAgICAgICAgICAgIHZhciBwb3B1cF9mNjVjYjBiNjM2NjE0YzgzYjBjZDllYTQwMzYzYmQ4YiA9IEwucG9wdXAoe21heFdpZHRoOiAnMzAwJ30pOwoKICAgICAgICAgICAgCiAgICAgICAgICAgICAgICB2YXIgaHRtbF80MjJlOWU0ZWEwMmE0OWEwYTczZGYzZGYzZTg2NTRiOSA9ICQoJzxkaXYgaWQ9Imh0bWxfNDIyZTllNGVhMDJhNDlhMGE3M2RmM2RmM2U4NjU0YjkiIHN0eWxlPSJ3aWR0aDogMTAwLjAlOyBoZWlnaHQ6IDEwMC4wJTsiPkxvY2F0aW9uIG9mIE1LNyA2QUE6ICg1Mi4wMjQ5MTQ3MzE1MTU5LC0wLjcwOTc0NzQ3NDE5NjMzMik8L2Rpdj4nKVswXTsKICAgICAgICAgICAgICAgIHBvcHVwX2Y2NWNiMGI2MzY2MTRjODNiMGNkOWVhNDAzNjNiZDhiLnNldENvbnRlbnQoaHRtbF80MjJlOWU0ZWEwMmE0OWEwYTczZGYzZGYzZTg2NTRiOSk7CiAgICAgICAgICAgIAoKICAgICAgICAgICAgbWFya2VyXzExODExMWIxN2EzNDRjY2M4YzgxMDVjOTAxMTlhMjVkLmJpbmRQb3B1cChwb3B1cF9mNjVjYjBiNjM2NjE0YzgzYjBjZDllYTQwMzYzYmQ4Yik7CgogICAgICAgICAgICAKICAgICAgICAKPC9zY3JpcHQ+" style="position:absolute;width:100%;height:100%;left:0;top:0;"></iframe></div></div>
+<div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><iframe src="data:text/html;charset=utf-8;base64,PCFET0NUWVBFIGh0bWw+CjxoZWFkPiAgICAKICAgIDxtZXRhIGh0dHAtZXF1aXY9ImNvbnRlbnQtdHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PVVURi04IiAvPgogICAgPHNjcmlwdD5MX1BSRUZFUl9DQU5WQVMgPSBmYWxzZTsgTF9OT19UT1VDSCA9IGZhbHNlOyBMX0RJU0FCTEVfM0QgPSBmYWxzZTs8L3NjcmlwdD4KICAgIDxzY3JpcHQgc3JjPSJodHRwczovL3VucGtnLmNvbS9sZWFmbGV0QDEuMC4xL2Rpc3QvbGVhZmxldC5qcyI+PC9zY3JpcHQ+CiAgICA8c2NyaXB0IHNyYz0iaHR0cHM6Ly9hamF4Lmdvb2dsZWFwaXMuY29tL2FqYXgvbGlicy9qcXVlcnkvMS4xMS4xL2pxdWVyeS5taW4uanMiPjwvc2NyaXB0PgogICAgPHNjcmlwdCBzcmM9Imh0dHBzOi8vbWF4Y2RuLmJvb3RzdHJhcGNkbi5jb20vYm9vdHN0cmFwLzMuMi4wL2pzL2Jvb3RzdHJhcC5taW4uanMiPjwvc2NyaXB0PgogICAgPHNjcmlwdCBzcmM9Imh0dHBzOi8vY2RuanMuY2xvdWRmbGFyZS5jb20vYWpheC9saWJzL0xlYWZsZXQuYXdlc29tZS1tYXJrZXJzLzIuMC4yL2xlYWZsZXQuYXdlc29tZS1tYXJrZXJzLmpzIj48L3NjcmlwdD4KICAgIDxzY3JpcHQgc3JjPSJodHRwczovL2NkbmpzLmNsb3VkZmxhcmUuY29tL2FqYXgvbGlicy9sZWFmbGV0Lm1hcmtlcmNsdXN0ZXIvMS4wLjAvbGVhZmxldC5tYXJrZXJjbHVzdGVyLXNyYy5qcyI+PC9zY3JpcHQ+CiAgICA8c2NyaXB0IHNyYz0iaHR0cHM6Ly9jZG5qcy5jbG91ZGZsYXJlLmNvbS9hamF4L2xpYnMvbGVhZmxldC5tYXJrZXJjbHVzdGVyLzEuMC4wL2xlYWZsZXQubWFya2VyY2x1c3Rlci5qcyI+PC9zY3JpcHQ+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Imh0dHBzOi8vdW5wa2cuY29tL2xlYWZsZXRAMS4wLjEvZGlzdC9sZWFmbGV0LmNzcyIgLz4KICAgIDxsaW5rIHJlbD0ic3R5bGVzaGVldCIgaHJlZj0iaHR0cHM6Ly9tYXhjZG4uYm9vdHN0cmFwY2RuLmNvbS9ib290c3RyYXAvMy4yLjAvY3NzL2Jvb3RzdHJhcC5taW4uY3NzIiAvPgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBocmVmPSJodHRwczovL21heGNkbi5ib290c3RyYXBjZG4uY29tL2Jvb3RzdHJhcC8zLjIuMC9jc3MvYm9vdHN0cmFwLXRoZW1lLm1pbi5jc3MiIC8+CiAgICA8bGluayByZWw9InN0eWxlc2hlZXQiIGhyZWY9Imh0dHBzOi8vbWF4Y2RuLmJvb3RzdHJhcGNkbi5jb20vZm9udC1hd2Vzb21lLzQuNi4zL2Nzcy9mb250LWF3ZXNvbWUubWluLmNzcyIgLz4KICAgIDxsaW5rIHJlbD0ic3R5bGVzaGVldCIgaHJlZj0iaHR0cHM6Ly9jZG5qcy5jbG91ZGZsYXJlLmNvbS9hamF4L2xpYnMvTGVhZmxldC5hd2Vzb21lLW1hcmtlcnMvMi4wLjIvbGVhZmxldC5hd2Vzb21lLW1hcmtlcnMuY3NzIiAvPgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBocmVmPSJodHRwczovL2NkbmpzLmNsb3VkZmxhcmUuY29tL2FqYXgvbGlicy9sZWFmbGV0Lm1hcmtlcmNsdXN0ZXIvMS4wLjAvTWFya2VyQ2x1c3Rlci5EZWZhdWx0LmNzcyIgLz4KICAgIDxsaW5rIHJlbD0ic3R5bGVzaGVldCIgaHJlZj0iaHR0cHM6Ly9jZG5qcy5jbG91ZGZsYXJlLmNvbS9hamF4L2xpYnMvbGVhZmxldC5tYXJrZXJjbHVzdGVyLzEuMC4wL01hcmtlckNsdXN0ZXIuY3NzIiAvPgogICAgPGxpbmsgcmVsPSJzdHlsZXNoZWV0IiBocmVmPSJodHRwczovL3Jhd2dpdC5jb20vcHl0aG9uLXZpc3VhbGl6YXRpb24vZm9saXVtL21hc3Rlci9mb2xpdW0vdGVtcGxhdGVzL2xlYWZsZXQuYXdlc29tZS5yb3RhdGUuY3NzIiAvPgogICAgPHN0eWxlPmh0bWwsIGJvZHkge3dpZHRoOiAxMDAlO2hlaWdodDogMTAwJTttYXJnaW46IDA7cGFkZGluZzogMDt9PC9zdHlsZT4KICAgIDxzdHlsZT4jbWFwIHtwb3NpdGlvbjphYnNvbHV0ZTt0b3A6MDtib3R0b206MDtyaWdodDowO2xlZnQ6MDt9PC9zdHlsZT4KICAgIAogICAgICAgICAgICA8c3R5bGU+ICNtYXBfZGFmNDdhNmMzOWI5NGExNGI1Yjk2MjRjZWM0MmY4MTQgewogICAgICAgICAgICAgICAgcG9zaXRpb24gOiByZWxhdGl2ZTsKICAgICAgICAgICAgICAgIHdpZHRoIDogMTAwLjAlOwogICAgICAgICAgICAgICAgaGVpZ2h0OiAxMDAuMCU7CiAgICAgICAgICAgICAgICBsZWZ0OiAwLjAlOwogICAgICAgICAgICAgICAgdG9wOiAwLjAlOwogICAgICAgICAgICAgICAgfQogICAgICAgICAgICA8L3N0eWxlPgogICAgICAgIAo8L2hlYWQ+Cjxib2R5PiAgICAKICAgIAogICAgICAgICAgICA8ZGl2IGNsYXNzPSJmb2xpdW0tbWFwIiBpZD0ibWFwX2RhZjQ3YTZjMzliOTRhMTRiNWI5NjI0Y2VjNDJmODE0IiA+PC9kaXY+CiAgICAgICAgCjwvYm9keT4KPHNjcmlwdD4gICAgCiAgICAKCiAgICAgICAgICAgIAogICAgICAgICAgICAgICAgdmFyIHNvdXRoV2VzdCA9IEwubGF0TG5nKC05MCwgLTE4MCk7CiAgICAgICAgICAgICAgICB2YXIgbm9ydGhFYXN0ID0gTC5sYXRMbmcoOTAsIDE4MCk7CiAgICAgICAgICAgICAgICB2YXIgYm91bmRzID0gTC5sYXRMbmdCb3VuZHMoc291dGhXZXN0LCBub3J0aEVhc3QpOwogICAgICAgICAgICAKCiAgICAgICAgICAgIHZhciBtYXBfZGFmNDdhNmMzOWI5NGExNGI1Yjk2MjRjZWM0MmY4MTQgPSBMLm1hcCgKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICdtYXBfZGFmNDdhNmMzOWI5NGExNGI1Yjk2MjRjZWM0MmY4MTQnLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAge2NlbnRlcjogWzUyLjAyNDkxNDczMTUxNTksLTAuNzA5NzQ3NDc0MTk2MzMyXSwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHpvb206IDE1LAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbWF4Qm91bmRzOiBib3VuZHMsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBsYXllcnM6IFtdLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgd29ybGRDb3B5SnVtcDogZmFsc2UsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjcnM6IEwuQ1JTLkVQU0czODU3CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIH0pOwogICAgICAgICAgICAKICAgICAgICAKICAgIAogICAgICAgICAgICB2YXIgdGlsZV9sYXllcl81MjFhMGI5Y2RkYmQ0Y2UzYjZmNjIzMGQxOGIyOGM4NCA9IEwudGlsZUxheWVyKAogICAgICAgICAgICAgICAgJ2h0dHBzOi8ve3N9LnRpbGUub3BlbnN0cmVldG1hcC5vcmcve3p9L3t4fS97eX0ucG5nJywKICAgICAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgICAgICBtYXhab29tOiAxOCwKICAgICAgICAgICAgICAgICAgICBtaW5ab29tOiAxLAogICAgICAgICAgICAgICAgICAgIGNvbnRpbnVvdXNXb3JsZDogZmFsc2UsCiAgICAgICAgICAgICAgICAgICAgbm9XcmFwOiBmYWxzZSwKICAgICAgICAgICAgICAgICAgICBhdHRyaWJ1dGlvbjogJ0RhdGEgYnkgPGEgaHJlZj0iaHR0cDovL29wZW5zdHJlZXRtYXAub3JnIj5PcGVuU3RyZWV0TWFwPC9hPiwgdW5kZXIgPGEgaHJlZj0iaHR0cDovL3d3dy5vcGVuc3RyZWV0bWFwLm9yZy9jb3B5cmlnaHQiPk9EYkw8L2E+LicsCiAgICAgICAgICAgICAgICAgICAgZGV0ZWN0UmV0aW5hOiBmYWxzZQogICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgICkuYWRkVG8obWFwX2RhZjQ3YTZjMzliOTRhMTRiNWI5NjI0Y2VjNDJmODE0KTsKCiAgICAgICAgCiAgICAKCiAgICAgICAgICAgIHZhciBtYXJrZXJfZWYyYzRiNWRkYmExNGNlMTllMWMyYzE5MTM0NDhhM2YgPSBMLm1hcmtlcigKICAgICAgICAgICAgICAgIFs1Mi4wMjM5LC0wLjcwNzJdLAogICAgICAgICAgICAgICAgewogICAgICAgICAgICAgICAgICAgIGljb246IG5ldyBMLkljb24uRGVmYXVsdCgpCiAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgKQogICAgICAgICAgICAgICAgLmFkZFRvKG1hcF9kYWY0N2E2YzM5Yjk0YTE0YjViOTYyNGNlYzQyZjgxNCk7CiAgICAgICAgICAgIAogICAgCiAgICAgICAgICAgIHZhciBwb3B1cF80YzBjYzBiY2U2NjA0NzZmYTEyZjVhYzMzNThkYzIzMCA9IEwucG9wdXAoe21heFdpZHRoOiAnMzAwJ30pOwoKICAgICAgICAgICAgCiAgICAgICAgICAgICAgICB2YXIgaHRtbF80YTJiZWIyNTM1MDk0NjAyOTgxMDcwYWQxYWI0NTIxNSA9ICQoJzxkaXYgaWQ9Imh0bWxfNGEyYmViMjUzNTA5NDYwMjk4MTA3MGFkMWFiNDUyMTUiIHN0eWxlPSJ3aWR0aDogMTAwLjAlOyBoZWlnaHQ6IDEwMC4wJTsiPkxvY2F0aW9uIG9mIE1LNyA2QUE6ICg1Mi4wMjQ5MTQ3MzE1MTU5LC0wLjcwOTc0NzQ3NDE5NjMzMik8L2Rpdj4nKVswXTsKICAgICAgICAgICAgICAgIHBvcHVwXzRjMGNjMGJjZTY2MDQ3NmZhMTJmNWFjMzM1OGRjMjMwLnNldENvbnRlbnQoaHRtbF80YTJiZWIyNTM1MDk0NjAyOTgxMDcwYWQxYWI0NTIxNSk7CiAgICAgICAgICAgIAoKICAgICAgICAgICAgbWFya2VyX2VmMmM0YjVkZGJhMTRjZTE5ZTFjMmMxOTEzNDQ4YTNmLmJpbmRQb3B1cChwb3B1cF80YzBjYzBiY2U2NjA0NzZmYTEyZjVhYzMzNThkYzIzMCk7CgogICAgICAgICAgICAKICAgICAgICAKPC9zY3JpcHQ+" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></div>
 </div>
 
 </div>
@@ -12008,8 +12091,7 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -12039,7 +12121,9 @@ div#notebook {
 
 
 <div class="output_area">
+
 <div class="prompt output_prompt">Out[49]:</div>
+
 
 
 
@@ -12082,8 +12166,7 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -12092,8 +12175,7 @@ div#notebook {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -12105,8 +12187,7 @@ div#notebook {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -12135,7 +12216,9 @@ div#notebook {
 
 
 <div class="output_area">
+
 <div class="prompt output_prompt">Out[50]:</div>
+
 
 
 
@@ -12168,7 +12251,9 @@ div#notebook {
 
 
 <div class="output_area">
+
 <div class="prompt output_prompt">Out[51]:</div>
+
 
 
 
@@ -12200,7 +12285,9 @@ div#notebook {
 
 
 <div class="output_area">
+
 <div class="prompt output_prompt">Out[52]:</div>
+
 
 
 
@@ -12224,8 +12311,7 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -12234,8 +12320,7 @@ div#notebook {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -12249,10 +12334,10 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="prompt input_prompt">In&nbsp;[62]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">googleMapsAPIkey</span><span class="o">=</span><span class="s2">&quot;YOUR_KEY_HERE&quot;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">googleMapsAPIkey</span><span class="o">=</span><span class="s2">&quot;AIzaSyAnpCrSlBn72gHzcxrX5EHKxeeKOiOuBVg&quot;</span>
 </pre></div>
 
 </div>
@@ -12260,8 +12345,7 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -12272,7 +12356,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="prompt input_prompt">In&nbsp;[63]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Add your cell tower details here.</span>
@@ -12283,8 +12367,8 @@ div#notebook {
     <span class="p">{</span>
         <span class="s2">&quot;mobileCountryCode&quot;</span><span class="p">:</span> <span class="mi">234</span><span class="p">,</span>
         <span class="s2">&quot;mobileNetworkCode&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
-        <span class="s2">&quot;locationAreaCode&quot;</span><span class="p">:</span> <span class="mi">979</span><span class="p">,</span>
-        <span class="s2">&quot;cellId&quot;</span><span class="p">:</span> <span class="mi">42333969</span>
+        <span class="s2">&quot;locationAreaCode&quot;</span><span class="p">:</span> <span class="mi">714</span><span class="p">,</span><span class="c1">#979,</span>
+        <span class="s2">&quot;cellId&quot;</span><span class="p">:</span> <span class="mi">1671</span><span class="c1">#42333969</span>
     <span class="p">}</span>
   <span class="p">]</span>
 <span class="p">}</span>
@@ -12297,7 +12381,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="prompt input_prompt">In&nbsp;[64]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://www.googleapis.com/geolocation/v1/geolocate?key=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">googleMapsAPIkey</span><span class="p">)</span>
@@ -12316,21 +12400,25 @@ div#notebook {
 
 
 <div class="output_area">
+
 <div class="prompt"></div>
 
+
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>{&#39;cellTowers&#39;: [{&#39;cellId&#39;: 42333969, &#39;mobileNetworkCode&#39;: 15, &#39;mobileCountryCode&#39;: 234, &#39;locationAreaCode&#39;: 979}]}
+<pre>{&#39;cellTowers&#39;: [{&#39;cellId&#39;: 1671, &#39;mobileNetworkCode&#39;: 15, &#39;mobileCountryCode&#39;: 234, &#39;locationAreaCode&#39;: 714}]}
 </pre>
 </div>
 </div>
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[55]:</div>
+
+<div class="prompt output_prompt">Out[64]:</div>
+
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{&#39;accuracy&#39;: 1337.0, &#39;location&#39;: {&#39;lat&#39;: 52.0364717, &#39;lng&#39;: -0.7084701}}</pre>
+<pre>{&#39;accuracy&#39;: 2588.0, &#39;location&#39;: {&#39;lat&#39;: 50.6544242, &#39;lng&#39;: -1.200891}}</pre>
 </div>
 
 </div>
@@ -12339,8 +12427,7 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -12459,8 +12546,7 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
