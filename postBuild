@@ -11,4 +11,6 @@ jupyter nbextension enable --py --sys-prefix ipyleaflet
 
 
 # Notebooks w/ extensions that auto-run code must be "trusted" to work the first time
-jupyter trust index_maps.ipynb
+jupyter trust simpleMapDemo.ipynb
+jupyter trust tridash.ipynb
+jupyter trust geocodingDemos.ipynb
