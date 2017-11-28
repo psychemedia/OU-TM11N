@@ -1,11 +1,15 @@
 ipywidgets~=7.0.0b1
 jupyter_contrib_nbextensions
 jupyter-wysiwyg
+jupyter_dashboards
+appmode
 
 requests
 folium
 ipyleaflet
 
+scipy
+seaborn
 git+https://github.com/psychemedia/Localization.git
 shapely
 descartes

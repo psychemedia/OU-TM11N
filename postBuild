@@ -9,6 +9,11 @@ jupyter nbextension enable jupyter_wysiwyg  --py --user
 
 jupyter nbextension enable --py --sys-prefix ipyleaflet
 
+jupyter nbextension enable --py --sys-prefix appmode
+jupyter serverextension enable --py --sys-prefix appmode
+
+jupyter dashboards quick-setup --sys-prefix
+jupyter nbextension enable jupyter_dashboards --py --sys-prefix
 
 # Notebooks w/ extensions that auto-run code must be "trusted" to work the first time
 jupyter trust simpleMapDemo.ipynb
