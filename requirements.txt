@@ -8,6 +8,12 @@ requests
 folium
 ipyleaflet
 
+#Base maps
+matplotlib
+git+https://github.com/matplotlib/basemap.git
+Pillow
+
+
 scipy
 seaborn
 git+https://github.com/psychemedia/Localization.git
