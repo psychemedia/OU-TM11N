@@ -1,9 +1,14 @@
+ipywidgets~=7.0.0b1
+jupyter_contrib_nbextensions
+jupyter-wysiwyg
+
+requests
 folium
-seaborn
-ggplot
+ipyleaflet
+
 git+https://github.com/psychemedia/Localization.git
-##shapely requires apt-get: sudo apt-get install libgeos-dev ?
 shapely
 descartes
-pyknon
-music21
+
+#3d - nb https://github.com/sinhrks/cesiumpy/issues/72
+cesiumpy

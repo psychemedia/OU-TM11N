@@ -1,6 +1,5 @@
-# OU-TM11N
-Demos and doodles for TM111 and TM112
+# D2 Example Activity Notebooks
 
-[![Binder](http://mybinder.org/badge.svg)](http://mybinder.org:/repo/psychemedia/ou-tm11n)
+Drafts of example activity notebooks.
 
-[rebuild via...](http://mybinder.org/status/psychemedia/ou-tm11n)
+See the [site for this repo](https://psychemedia.github.io/OU-TM11N/).

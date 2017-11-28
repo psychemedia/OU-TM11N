@@ -1,0 +1,15 @@
+#!/bin/bash
+
+jupyter contrib nbextension install --user
+jupyter nbextension enable widgetsnbextension  --py --user
+jupyter nbextension enable python-markdown/main  --py --user
+
+jupyter-nbextension install jupyter_wysiwyg --py --user
+jupyter nbextension enable jupyter_wysiwyg  --py --user 
+
+jupyter nbextension enable --py --sys-prefix ipyleaflet
+
+
+# Notebooks w/ extensions that auto-run code must be "trusted" to work the first time
+jupyter trust index.ipynb
+jupyter trust index_maps.ipynb
